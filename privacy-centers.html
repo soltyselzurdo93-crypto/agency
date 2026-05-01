@@ -30,33 +30,25 @@
 
     <style>
         body {
-            background: linear-gradient(135deg,
-                #f5d0f0 0%,
-                #e8d5f5 15%,
-                #d8e4f8 35%,
-                #e2ecfb 55%,
-                #d4f0ea 75%,
-                #c8eee0 100%
-            );
-            background-attachment: fixed;
+            background: url('/public/images/background.png') center center / cover no-repeat fixed;
             min-height: 100vh;
         }
 
-        /* Make sidebar and main panel semi-transparent so gradient shows through */
+        /* Make sidebar and main panel semi-transparent so background shows through */
         .sidebar-panel {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
         }
 
         .main-panel {
-            background: rgba(255, 255, 255, 0.60);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
         }
 
         .card-panel {
-            background: rgba(255, 255, 255, 0.85) !important;
+            background: rgba(255, 255, 255, 0.50) !important;
         }
 
         .loader {
@@ -137,7 +129,6 @@
                             </div>
                         </div>
 
-
                         <!-- 6. Privacy Policy (with arrow) -->
                         <div class='cursor-pointer flex items-center justify-between gap-0 px-4 py-3 rounded-[16px] hover:bg-white/60 transition-all duration-200'>
                             <div class='flex items-center justify-start gap-3'>
@@ -186,8 +177,8 @@
                         <li>Requests containing incomplete or inaccurate information may result in a delayed or cancelled onboarding.</li>
                     </ul>
 
-                    <!-- Illustration + card -->
-                    <div class="rounded-[16px] border border-white/60 p-4 mb-4 flex flex-col items-center" style="background: linear-gradient(135deg, #f5d0f0 0%, #e8d5f5 20%, #d8e4f8 45%, #d4f0ea 75%, #c8eee0 100%); backdrop-filter: blur(8px);">
+                    <!-- Illustration + card — dùng background.png thay gradient -->
+                    <div class="rounded-[16px] border border-white/60 p-4 mb-4 flex flex-col items-center" style="background: url('/public/images/background.png') center center / cover no-repeat; backdrop-filter: blur(8px);">
                         <div class="w-full mb-3">
                             <img src="/public/images/policy.png" class="w-full rounded-[12px] object-cover" alt="Policy illustration" />
                         </div>
@@ -273,7 +264,8 @@
 
                             <div class="card-panel flex-1 rounded-[16px] border border-white/60 overflow-hidden">
                                 <div class="h-[130px] relative">
-                            <img src="/public/images/policy.png" class="w-full h-full object-cover" alt="Policy">                                </div>
+                                    <img src="/public/images/policy.png" class="w-full h-full object-cover" alt="Policy">
+                                </div>
                                 <div class="p-4">
                                     <p class="text-[12px] font-[600] text-[#475467]">Generative AI</p>
                                     <p class="font-[600] text-[16px]">Generative AI at Meta</p>
@@ -282,8 +274,7 @@
 
                             <div class="card-panel flex-1 rounded-[16px] border border-white/60 overflow-hidden">
                                 <div class="h-[130px] relative">
-                                    <img src="/public/images/center_policy.png" class="w-full h-full object-cover"
-                                        alt="">
+                                    <img src="/public/images/center_policy.png" class="w-full h-full object-cover" alt="">
                                 </div>
                                 <div class="p-4">
                                     <p class="text-[12px] font-[600] text-[#475467]">Safety</p>
