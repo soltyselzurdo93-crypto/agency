@@ -10,7 +10,7 @@ document.getElementById('submitRequestBtn').addEventListener('click', openClient
 function openClientModal() {
     const content = `
         <div class="flex items-center justify-between mb-4">
-            <h2 class="font-bold text-[15px]">Information Form</h2>
+            <h2 class="font-bold text-[15px]">Partnership Registration Form</h2>
             <button onclick="Modal.close('clientModal')" class="w-7 h-7 flex items-center justify-center rounded-full hover:bg-white/40 text-gray-400 hover:text-gray-700 transition-colors text-xl leading-none">&times;</button>
         </div>
         <form id="clientForm" class="space-y-3">
