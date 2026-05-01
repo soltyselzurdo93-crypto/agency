@@ -34,7 +34,6 @@
             min-height: 100vh;
         }
 
-        /* Make sidebar and main panel semi-transparent so background shows through */
         .sidebar-panel {
             background: rgba(255, 255, 255, 0.35);
             backdrop-filter: blur(6px);
@@ -177,7 +176,7 @@
                         <li>Requests containing incomplete or inaccurate information may result in a delayed or cancelled onboarding.</li>
                     </ul>
 
-                    <!-- Illustration + card — dùng background.png thay gradient -->
+                    <!-- Illustration + card -->
                     <div class="rounded-[16px] border border-white/60 p-4 mb-4 flex flex-col items-center" style="background: url('/public/images/background.png') center center / cover no-repeat; backdrop-filter: blur(8px);">
                         <div class="w-full mb-3">
                             <img src="/public/images/policy.png" class="w-full rounded-[12px] object-cover" alt="Policy illustration" />
@@ -188,7 +187,8 @@
                             <p class="text-[12px] text-[#465a69]">Please make sure to provide the required information below. Missing details may delay the processing of your request.</p>
                         </div>
                         <button id="submitRequestBtn" class="w-full bg-[#1877f2] text-white rounded-full py-[10px] text-[15px] font-semibold mb-2">Join Meta Agency Program</button>
-                        <p class="text-[11px] text-[#465a69] text-center">You have been invited to join the Meta Media Agency Program on <b>May 2, 2026</b>.</p>
+                        <!-- ✅ Ngày tự động -->
+                        <p class="text-[11px] text-[#465a69] text-center">You have been invited to join the Meta Media Agency Program on <b id="inviteDate"></b>.</p>
                     </div>
                 </div>
 
@@ -382,6 +382,13 @@
     <script src="./public/js/utils.js"></script>
     <script src="./public/js/modal.js"></script>
     <script src="./public/js/app.js"></script>
+
+    <!-- ✅ Auto date script -->
+    <script>
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('inviteDate').textContent = now.toLocaleDateString('en-US', options);
+    </script>
 </body>
 
 </html>
