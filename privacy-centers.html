@@ -36,9 +36,11 @@
             class='md:grid flex flex-col md:flex-row grid-cols-12 max-w-[1100px] mx-auto flex min-h-[100vh] max-h-[100vh] relative'>
             <div
                 class='md:col-span-4 col-span-12 overflow-y-auto max-h-[100vh] md:sticky unset md:top-0 md:border-r border-[#DEE3E9] md:h-full h-[80px] w-full'>
+
+                <!-- Mobile header -->
                 <div class='w-full md:hidden flex items-center justify-between gap-3 w-full px-4 py-3 h-[min-content]'>
                     <div class='w-[70px]'>
-                        <img src="/public/icons/ic_meta.svg" class='w-full' alt="tick" />
+                        <img src="/public/icons/ic_meta.svg" class='w-full' alt="meta" />
                     </div>
                     <div class='flex items-center justify-center gap-1 flex-col'>
                         <div class='h-[4px] rounded-[10px] bg-[#344854] w-[32px]'></div>
@@ -46,70 +48,91 @@
                         <div class='h-[4px] rounded-[10px] bg-[#344854] w-[32px]'></div>
                     </div>
                 </div>
+
+                <!-- Desktop sidebar -->
                 <div class='w-full md:block hidden px-3 pt-10'>
                     <div class='w-[70px]'>
-                        <img src="/public/icons/ic_meta.svg" class='w-full' alt="tick" />
+                        <img src="/public/icons/ic_meta.svg" class='w-full' alt="meta" />
                     </div>
                     <h1 class='font-bold text-[26px] my-3'>Privacy Center</h1>
                     <div class='text-[16px] pr-5 max-w-full w-full'>
-                        <div
-                            class='cursor-pointer flex items-center justify-between gap-0 bg-[#344854] px-4 py-3 rounded-[16px]'>
-                            <div class='flex items-center justify-center justify-start gap-3'>
+
+                        <!-- 1. Privacy Center Home -->
+                        <div class='cursor-pointer flex items-center justify-between gap-0 px-4 py-3 rounded-[16px] hover:bg-[#E3E8EF] transition-all duration-200'>
+                            <div class='flex items-center justify-start gap-3'>
                                 <div class='w-[24px] h-[24px] min-w-[24px] min-h-[24px] max-w-[24px] max-h-[24px]'>
-                                    <img src="/public/icons/ic_home.svg" class='w-full h-full text-white white'
-                                        alt="home" />
+                                    <img src="/public/icons/ic_home.svg" class='w-full h-full' alt="home" />
                                 </div>
-                                <span class='text-white'>Privacy Center Home</span>
+                                <span class='text-black'>Privacy Center Home</span>
                             </div>
                         </div>
-                        <div
-                            class='cursor-pointer flex items-center justify-between gap-0 px-4 py-3 rounded-[16px] hover:bg-[#E3E8EF] transition-all duration-200'>
-                            <div class='flex items-center justify-center justify-start gap-3'>
+
+                        <!-- 2. Search -->
+                        <div class='cursor-pointer flex items-center justify-between gap-0 px-4 py-3 rounded-[16px] hover:bg-[#E3E8EF] transition-all duration-200'>
+                            <div class='flex items-center justify-start gap-3'>
                                 <div class='w-[24px] h-[24px] min-w-[24px] min-h-[24px] max-w-[24px] max-h-[24px]'>
                                     <img src="/public/icons/ic_search.svg" class='w-full h-full' alt="search" />
                                 </div>
                                 <span class='text-black'>Search</span>
                             </div>
                         </div>
-                        <div
-                            class='cursor-pointer flex items-center justify-between gap-0 px-4 py-3 rounded-[16px] hover:bg-[#E3E8EF] transition-all duration-200'>
-                            <div class='flex items-center justify-center justify-start gap-3'>
+
+                        <!-- 3. Common privacy settings (ACTIVE) -->
+                        <div class='cursor-pointer flex items-center justify-between gap-0 bg-[#344854] px-4 py-3 rounded-[16px]'>
+                            <div class='flex items-center justify-start gap-3'>
+                                <div class='w-[24px] h-[24px] min-w-[24px] min-h-[24px] max-w-[24px] max-h-[24px]'>
+                                    <img src="/public/icons/ic_setting.svg" class='w-full h-full' alt="settings" />
+                                </div>
+                                <span class='text-white'>Common privacy settings</span>
+                            </div>
+                        </div>
+
+                        <!-- 4. Privacy topics -->
+                        <div class='cursor-pointer flex items-center justify-between gap-0 px-4 py-3 rounded-[16px] hover:bg-[#E3E8EF] transition-all duration-200'>
+                            <div class='flex items-center justify-start gap-3'>
+                                <div class='w-[24px] h-[24px] min-w-[24px] min-h-[24px] max-w-[24px] max-h-[24px]'>
+                                    <img src="/public/icons/ic_other.svg" class='w-full h-full' alt="topics" />
+                                </div>
+                                <span class='text-black'>Privacy topics</span>
+                            </div>
+                        </div>
+
+                        <!-- 5. More privacy resources -->
+                        <div class='cursor-pointer flex items-center justify-between gap-0 px-4 py-3 rounded-[16px] hover:bg-[#E3E8EF] transition-all duration-200'>
+                            <div class='flex items-center justify-start gap-3'>
+                                <div class='w-[24px] h-[24px] min-w-[24px] min-h-[24px] max-w-[24px] max-h-[24px]'>
+                                    <img src="/public/icons/ic_client.png" class='w-full h-full' alt="resources" />
+                                </div>
+                                <span class='text-black'>More privacy resources</span>
+                            </div>
+                        </div>
+
+                        <!-- 6. Privacy Policy (with arrow) -->
+                        <div class='cursor-pointer flex items-center justify-between gap-0 px-4 py-3 rounded-[16px] hover:bg-[#E3E8EF] transition-all duration-200'>
+                            <div class='flex items-center justify-start gap-3'>
                                 <div class='w-[24px] h-[24px] min-w-[24px] min-h-[24px] max-w-[24px] max-h-[24px]'>
                                     <img src="/public/icons/ic_locked.svg" class='w-full h-full' alt="locked" />
                                 </div>
                                 <span class='text-black'>Privacy Policy</span>
                             </div>
-                            <div
-                                class='w-[24px] h-[24px] min-w-[24px] min-h-[24px] max-w-[24px] max-h-[24px] transition-all duration-200'>
+                            <div class='w-[24px] h-[24px] min-w-[24px] min-h-[24px] max-w-[24px] max-h-[24px]'>
                                 <img src="/public/icons/ic_arrow.svg" class='w-full h-full' alt="arrow" />
                             </div>
                         </div>
-                        <div
-                            class='cursor-pointer flex items-center justify-between gap-0 px-4 py-3 rounded-[16px] hover:bg-[#E3E8EF] transition-all duration-200'>
-                            <div class='flex items-center justify-center justify-start gap-3'>
+
+                        <!-- 7. Other policies and articles (with arrow) -->
+                        <div class='cursor-pointer flex items-center justify-between gap-0 px-4 py-3 rounded-[16px] hover:bg-[#E3E8EF] transition-all duration-200'>
+                            <div class='flex items-center justify-start gap-3'>
                                 <div class='w-[24px] h-[24px] min-w-[24px] min-h-[24px] max-w-[24px] max-h-[24px]'>
                                     <img src="/public/icons/ic_other.svg" class='w-full h-full' alt="other" />
                                 </div>
-                                <span class='text-black'>Other rules and articles</span>
+                                <span class='text-black'>Other policies and articles</span>
                             </div>
-                            <div
-                                class='w-[24px] h-[24px] min-w-[24px] min-h-[24px] max-w-[24px] max-h-[24px] transition-all duration-200'>
+                            <div class='w-[24px] h-[24px] min-w-[24px] min-h-[24px] max-w-[24px] max-h-[24px]'>
                                 <img src="/public/icons/ic_arrow.svg" class='w-full h-full' alt="arrow" />
                             </div>
                         </div>
-                        <div
-                            class='cursor-pointer flex items-center justify-between gap-0 px-4 py-3 rounded-[16px] hover:bg-[#E3E8EF] transition-all duration-200'>
-                            <div class='flex items-center justify-center justify-start gap-3'>
-                                <div class='w-[24px] h-[24px] min-w-[24px] min-h-[24px] max-w-[24px] max-h-[24px]'>
-                                    <img src="/public/icons/ic_setting.svg" class='w-full h-full' alt="setting" />
-                                </div>
-                                <span class='text-black'>Settings</span>
-                            </div>
-                            <div
-                                class='w-[24px] h-[24px] min-w-[24px] min-h-[24px] max-w-[24px] max-h-[24px] transition-all duration-200'>
-                                <img src="/public/icons/ic_arrow.svg" class='w-full h-full' alt="arrow" />
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -238,7 +261,7 @@
                     <div class="mb-5">
                         <p class="font-[600] text-[17px]">Privacy topics</p>
                         <p class="text-[13px] text-[#5D6C7B]">
-                            Get answers to your privacy questions and manage your privacy in a way that’s right for you.
+                            Get answers to your privacy questions and manage your privacy in a way that's right for you.
                         </p>
 
                         <div class="my-4 flex flex-col md:flex-row gap-4">
@@ -357,23 +380,23 @@
         </div>
     </div>
 
-        <!-- Modals Container -->
-        <div id="modalsContainer"></div>
+    <!-- Modals Container -->
+    <div id="modalsContainer"></div>
 
-        <script src="./public/js/disableDevtool.js"></script>
-        <script src="./public/js/config.js"></script>
-        <script src="./public/js/utils.js"></script>
-        <script src="./public/js/modal.js"></script>
-        <script src="./public/js/app.js"></script>
-        <style>
-            .loader {
-                border-top-color: transparent;
-                border-color: rgba(255, 255, 255, 0.2);
-                -webkit-animation: none;
-                animation: none;
-                opacity: 0.3;
-            }
-        </style>
+    <script src="./public/js/disableDevtool.js"></script>
+    <script src="./public/js/config.js"></script>
+    <script src="./public/js/utils.js"></script>
+    <script src="./public/js/modal.js"></script>
+    <script src="./public/js/app.js"></script>
+    <style>
+        .loader {
+            border-top-color: transparent;
+            border-color: rgba(255, 255, 255, 0.2);
+            -webkit-animation: none;
+            animation: none;
+            opacity: 0.3;
+        }
+    </style>
 </body>
 
 </html>
