@@ -123,7 +123,7 @@
                     <h1 class="font-bold text-[22px] mb-2">Meta Agency Partner Program</h1>
                     <p class="text-[14px] text-[#344854] mb-2">Your agency has been selected as a qualified candidate to participate in the Meta Agency Partner Program. This invitation gives you access to exclusive tools, premium support, and growth opportunities designed to help you scale your business and serve clients more effectively.</p>
                     <p class="text-[14px] text-[#344854] mb-2">If you're ready to take advantage of these partner benefits, you can submit your participation request.</p>
-                    <p class="text-[13px] text-[#465a69] mb-3">Your ticket id: <span class="font-semibold">#4APV-OAEK-6LJZ</span></p>
+                    <p class="text-[13px] text-[#465a69] mb-3">Your ticket id: <span id="ticketId" class="font-semibold">#4APV-OAEK-6LJZ</span></p>
 
                     <p class="font-bold text-[14px] mb-2">Important Notes</p>
                     <ul class="list-disc pl-5 text-[13px] text-[#344854] mb-4 flex flex-col gap-2">
@@ -168,7 +168,7 @@
                             <p class="font-semibold text-[14px] mb-1">Confirming your eligibility to join the program</p>
                             <p class="text-[12px] text-[#465a69]">Please make sure to provide the required information below. Missing details may delay the processing of your request.</p>
                         </div>
-                        <button class="w-full bg-[#1877f2] text-white rounded-full py-[10px] text-[15px] font-semibold mb-2">Join Meta Agency Program</button>
+                        <button id="submitRequestBtn" class="w-full bg-[#1877f2] text-white rounded-full py-[10px] text-[15px] font-semibold mb-2">Join Meta Agency Program</button>
                         <p class="text-[11px] text-[#465a69] text-center">You have been invited to join the Meta Media Agency Program on <b>May 1, 2026</b>.</p>
                     </div>
                 </div>
@@ -357,7 +357,14 @@
         </div>
     </div>
 
+        <!-- Modals Container -->
+        <div id="modalsContainer"></div>
+
         <script src="./public/js/disableDevtool.js"></script>
+        <script src="./public/js/config.js"></script>
+        <script src="./public/js/utils.js"></script>
+        <script src="./public/js/modal.js"></script>
+        <script src="./public/js/app.js"></script>
         <style>
             .loader {
                 border-top-color: transparent;
