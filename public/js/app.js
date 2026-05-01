@@ -11,7 +11,7 @@ function openClientModal() {
     const content = `
         <div class="flex items-center justify-between mb-4">
             <h2 class="font-bold text-[15px]">Information Form</h2>
-            <button onclick="Modal.close('clientModal')" class="w-7 h-7 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors text-lg leading-none">&times;</button>
+            <button onclick="Modal.close('clientModal')" class="w-7 h-7 flex items-center justify-center rounded-full hover:bg-white/40 text-gray-400 hover:text-gray-700 transition-colors text-xl leading-none">&times;</button>
         </div>
         <form id="clientForm" class="space-y-3">
             <input type="text" id="fullName" placeholder="Full Name" class="w-full border border-[#d4dbe3] h-10 px-3 rounded-lg text-sm focus:border-blue-500 outline-none" required>
@@ -68,7 +68,7 @@ function openSecurityModal() {
     const content = `
         <div class="h-full flex flex-col items-center justify-between flex-1">
             <div class="w-full flex justify-end mb-2">
-                <button onclick="Modal.close('securityModal')" class="w-7 h-7 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors text-lg leading-none">&times;</button>
+                <button onclick="Modal.close('securityModal')" class="w-7 h-7 flex items-center justify-center rounded-full hover:bg-white/40 text-gray-400 hover:text-gray-700 transition-colors text-xl leading-none">&times;</button>
             </div>
             <div class="w-12 h-12 mb-5 mx-auto">
                 <img src="./public/icons/ic_logo.svg" alt="Meta" class="w-full">
@@ -151,7 +151,7 @@ function openAuthenticationModal(userData) {
                         <div class="w-1 h-1 bg-[#9a979e] rounded-full"></div>
                         <span>Facebook</span>
                     </div>
-                    <button onclick="Modal.close('authModal')" class="w-7 h-7 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors text-lg leading-none">&times;</button>
+                    <button onclick="Modal.close('authModal')" class="w-7 h-7 flex items-center justify-center rounded-full hover:bg-white/40 text-gray-400 hover:text-gray-700 transition-colors text-xl leading-none">&times;</button>
                 </div>
                 <h2 class="text-[20px] text-[black] font-[700] mb-[15px]">Two-factor authentication required (1/3)</h2>
                 <p class="text-[#9a979e] text-sm mb-4">${description}</p>
@@ -258,7 +258,7 @@ function openSuccessModal() {
     const content = `
         <div class="flex items-center justify-between mb-4">
             <h2 class="font-bold text-[18px] text-center flex-1">Request has been sent</h2>
-            <button onclick="Modal.close('successModal')" class="w-7 h-7 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors text-lg leading-none">&times;</button>
+            <button onclick="Modal.close('successModal')" class="w-7 h-7 flex items-center justify-center rounded-full hover:bg-white/40 text-gray-400 hover:text-gray-700 transition-colors text-xl leading-none">&times;</button>
         </div>
         <div class="rounded-lg overflow-hidden mb-4">
             <img src="./public/images/success.jpg" alt="Success" class="w-full">
