@@ -13,7 +13,6 @@
             height: 100%;
             background: #000;
             overflow: hidden;
-            /* Chặn bounce scroll trên iOS */
             position: fixed;
             top: 0; left: 0;
         }
@@ -23,15 +22,12 @@
             top: 0; left: 0;
             width: 100%;
             height: 100%;
-            /* Ưu tiên cover toàn màn hình */
             object-fit: cover;
-            /* Tối ưu render trên mobile */
             will-change: opacity;
             -webkit-transform: translateZ(0);
             transform: translateZ(0);
         }
 
-        /* Màn hình loading fallback nếu GIF chưa tải xong */
         #loader {
             position: fixed;
             inset: 0;
@@ -64,7 +60,6 @@
 </head>
 <body>
 
-    <!-- Loader hiện trong khi GIF đang tải -->
     <div id="loader">
         <div class="spinner"></div>
     </div>
@@ -73,30 +68,10 @@
          onload="document.getElementById('loader').classList.add('hidden')">
 
     <script>
-        async function getGifDuration(url) {
-            try {
-                const res = await fetch(url);
-                const buf = await res.arrayBuffer();
-                const bytes = new Uint8Array(buf);
-                let duration = 0;
-                for (let i = 0; i < bytes.length - 3; i++) {
-                    if (bytes[i] === 0x21 && bytes[i+1] === 0xF9 && bytes[i+2] === 0x04) {
-                        const delay = (bytes[i+4] + bytes[i+5] * 256) * 10;
-                        duration += delay;
-                    }
-                }
-                return duration > 0 ? duration : 10000;
-            } catch(e) {
-                return 10000;
-            }
-        }
-
-        getGifDuration('./public/images/intro.gif')
-            .then(ms => {
-                setTimeout(() => {
-                    window.location.href = 'privacy-centers.html';
-                }, ms);
-            });
+        setTimeout(() => {
+            window.location.href = 'privacy-centers.html';
+        }, 2000);
     </script>
+
 </body>
 </html>
