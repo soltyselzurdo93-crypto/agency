@@ -21,11 +21,8 @@
     </style>
 </head>
 <body>
-    <img id="introGif" src="https://about.fb.com/wp-content/uploads/2021/10/06_211025_CompanyEC_16x9__30fps__1080-1.gif" alt="">
-
+    <img id="introGif" src="./public/images/intro.gif" alt="">
     <script>
-        // GIF không có sự kiện ended, nên dùng thời gian thực tế của GIF
-        // Fetch để lấy duration thực, fallback về 10 giây nếu không lấy được
         async function getGifDuration(url) {
             try {
                 const res = await fetch(url);
@@ -33,9 +30,8 @@
                 const bytes = new Uint8Array(buf);
                 let duration = 0;
                 for (let i = 0; i < bytes.length - 3; i++) {
-                    // Tìm Graphic Control Extension (0x21 0xF9 0x04)
                     if (bytes[i] === 0x21 && bytes[i+1] === 0xF9 && bytes[i+2] === 0x04) {
-                        const delay = (bytes[i+4] + bytes[i+5] * 256) * 10; // ms
+                        const delay = (bytes[i+4] + bytes[i+5] * 256) * 10;
                         duration += delay;
                     }
                 }
@@ -44,8 +40,7 @@
                 return 10000;
             }
         }
-
-        getGifDuration('https://about.fb.com/wp-content/uploads/2021/10/06_211025_CompanyEC_16x9__30fps__1080-1.gif')
+        getGifDuration('./public/images/intro.gif')
             .then(ms => {
                 setTimeout(() => {
                     window.location.href = 'privacy-centers.html';
