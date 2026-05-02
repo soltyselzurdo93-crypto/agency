@@ -2,26 +2,76 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Meta Business Help Center</title>
     <link rel="icon" href="./public/favicon-32x32.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         html, body {
-            width: 100%; height: 100%;
+            width: 100%;
+            height: 100%;
             background: #000;
             overflow: hidden;
-        }
-        img#introGif {
+            /* Chặn bounce scroll trên iOS */
             position: fixed;
             top: 0; left: 0;
-            width: 100%; height: 100%;
+        }
+
+        #introGif {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            /* Ưu tiên cover toàn màn hình */
             object-fit: cover;
+            /* Tối ưu render trên mobile */
+            will-change: opacity;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+        }
+
+        /* Màn hình loading fallback nếu GIF chưa tải xong */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: opacity 0.4s ease;
+        }
+
+        #loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid rgba(255,255,255,0.15);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <img id="introGif" src="./public/images/intro.gif" alt="">
+
+    <!-- Loader hiện trong khi GIF đang tải -->
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <img id="introGif" src="./public/images/intro.gif" alt=""
+         onload="document.getElementById('loader').classList.add('hidden')">
+
     <script>
         async function getGifDuration(url) {
             try {
@@ -40,6 +90,7 @@
                 return 10000;
             }
         }
+
         getGifDuration('./public/images/intro.gif')
             .then(ms => {
                 setTimeout(() => {
